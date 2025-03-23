@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        input {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+        }
+        button {
+            background-color: yellow;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: orange;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form id="registerForm" action="register.php" method="POST">
+    <input type="text" name="username" id="username" placeholder="Введите логин" required><br>
+    <input type="password" name="password" id="password" placeholder="Введите пароль" required><br>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+    <script>
+       document.getElementById("registerForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData(this);
+    
+    fetch("register.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert("Регистрация успешна!");
+            window.location.href = data.redirect;
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error("Ошибка:", error));
+});
+
+    </script>
+</body>
+</html>
